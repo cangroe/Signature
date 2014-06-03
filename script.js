@@ -11,6 +11,7 @@ $(document).ready(function(){
 			if($(this).html()=="Read") cardRead(0);
 			if($(this).html()=="Update") cardUpdate();
 			if($(this).html()=="Delete") cardDelete();
+			if($(this).html()=="QRCode") QRCode();
 		});
 	});
 	$("#userTable tr th").each(function() {
@@ -29,7 +30,7 @@ $(document).ready(function(){
 	$("#feedback").css("display","none");
 	$('#userTable tr th:eq(1)').click();
 
-	$("#createForm, #readForm, #updateCardForm, #deleteMessage").css("display","none");
+	$("#createForm, #readForm, #updateCardForm, #deleteMessage,#qrCode").css("display","none");
 }); 
 
 var uidHisCard;
@@ -115,6 +116,7 @@ function cardRead(flag) {
 					switch(flag) {
 					case 1: $("#updateCardForm").show(); break;
 					case 2: $("#deleteMessage").show(); break;
+					case 3: $("#qrCode").show(); break;
 					}
 				});
 		    },
@@ -201,6 +203,26 @@ function cardDelete() {
 		    		$("#feedback").toggle();
 		    	}, 3000);
 			}
+		});
+	});
+}
+
+function QRCode() {
+	cardRead(3);
+	$('#qrCode button').click(function(){
+		id= hisCard[0].get("uid");
+		console.log(id);
+		$('#qrCode').hide();
+		$("#dispqrCode").show();
+		$("#dispqrCode").qrcode({
+			render: 'div',
+			width: 100,
+			height: 100,
+			color: '#3a3',
+			text: id
+		});
+		$("#dispqrCode").click(function() {
+			$("#dispqrCode").hide();
 		});
 	});
 }

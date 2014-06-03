@@ -5,6 +5,7 @@
  	<meta charset="UTF8">
  	<script type="text/javascript" src="builtio-min.js"></script>
  	<script type="text/javascript" src="jquery-1.11.1.min.js"></script>
+ 	<script type="text/javascript" src="jquery.qrcode-0.7.0.min.js"></script>
  	<script type="text/javascript" src="script.js"></script>
  </head>
  <body>
@@ -16,6 +17,7 @@
  			<th>Read</th>
  			<th>Update</th>
  			<th>Delete</th>
+ 			<th>QRCode</th>
  		<tr>
  		<caption>Card Operations</caption>
  	</table>
@@ -53,6 +55,11 @@
 		<button>Delete</button><br>
 		You Need to be Logged in to delete YOUR card.
 	</div>
+	<div id="qrCode">
+		<button>Display QRCode</button>
+		You Need to be Logged in to display YOUR Card's QR Code instead you can "READ" a Card using its "uid"(from Dashboard) for demo purposes.
+	</div>
+	<div id="dispqrCode"></div>
  	<hr>
  	 <table id="userTable">
  		<tr>
