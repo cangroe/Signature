@@ -33,11 +33,9 @@
 	  <input type="button" name="Submit" value="Create"><br>
 	  More Attributes can be added.
 	</form>
-	<form id="readForm" autocomplete="on">
-	  Card ID: <input type="text" name="uid"><br>
-	  <input type="button" name="Submit" value="Read"><br>
-	  In Reality, the UID of hiscard is stored in the app.
-	</form> 
+	<div id="readForm">
+	  Please Login!!. 
+	</div> 
 	<div id="readTable"></div> 
 	<form id="updateCardForm" autocomplete="on">
 	  Name:<input type="text" name="fname"><br>
@@ -49,18 +47,14 @@
 	  Position: <input type="text" name="position"><br>
 	  Color: <input type="text" name="color"><br>
 	  <input type="button" name="Submit" value="Update"><br>
-	  You need to be Logged in to edit your card. Duh!!
 	</form>
 	<div id="deleteMessage">
 		<button>Delete</button><br>
-		You Need to be Logged in to delete YOUR card.
 	</div>
 	<div id="qrCode">
 		<button>Display QRCode</button>
-		You Need to be Logged in to display YOUR Card's QR Code instead you can "READ" a Card using its "uid"(from Dashboard) for demo purposes.
 	</div>
-	<div id="dispqrCode"></div>
- 	<hr>
+	<hr>
  	 <table id="userTable">
  		<tr>
  			<th>Register</th>
@@ -77,13 +71,12 @@
 	  Password: <input type="password" name="password" autocomplete="off"><br>
 	  Confirmation: <input type="password" name="confirmation" autocomplete="off"><br>
 	  <input type="button" name="Submit" value="Register"><br>
-	  More Attributes can be added.
+	  More Attributes can be added. As of now, you have to explicitly activate the account @ Dashboard before trying to Login.
 	</form> 
  	<form id="loginForm" autocomplete="on">
 	  E-mail: <input type="email" name="email" autocomplete="off"><br>
 	  Password: <input type="password" name="password" autocomplete="off"><br>
 	  <input type="button" name="Submit" value="Login"><br>
-	  Start By Logging In unless you wanna register a user.
 	</form> 
 	<form id="updateForm" autocomplete="on">
 	  First name:<input type="text" name="fname"><br>
@@ -93,7 +86,8 @@
 	  Password: <input type="password" name="password" autocomplete="off" disabled><br>
 	  Confirmation: <input type="password" name="confirmation" autocomplete="off" disabled><br>
 	  <input type="button" name="Submit" value="Update"><br>
-	  Password Changing Documentation from built.io is missing . Logic is made already for Signature. 
+	  If you change email you have to login again to continue using the updated email. <br>
+	  Password Changing Documentation from built.io is missing . Neverthless, Logic is made already for Signature.
 	</form> 
 	<div id="feedback">
 		<progress value="75" max="100"></progress>
