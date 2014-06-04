@@ -473,6 +473,9 @@ function loginFill(User) {
 	$("#updateForm input[name=lname]").val(User.last_name);
 	$("#updateForm input[name=email]").val(User.email);
 
+	allCards();
+	myCards();
+
 	if(typeof User.hiscard === 'undefined' || User.hiscard==null){
 	   return;
 	}
@@ -503,5 +506,82 @@ function logoutClear() {
 	$("#userTable tr th:eq(2),#userTable tr th:eq(3)").hide();
 	$("#cardTable,hr:eq(0)").hide();
 	$('#userTable tr th:eq(1)').click();
+	$("#dispAllCards").remove();
+	$("#dispMyCards").remove();
 
-} 
+}
+
+function allCards() {
+	divAllCards= $("<div></div>").attr("id","dispAllCards");
+	$(divAllCards).css({"width":"50%","float":"left","text-align":"center"});
+	$(divAllCards).append("<h4>All Cards</h4>");
+	$(divAllCards).append("Click a Card to Add it to your Stack");
+    var myQuery = new Built.Query('card');
+    myQuery.includeOwner("true");
+    myQuery.exec({
+	    onSuccess: function(cards) {
+		    keys =['name','mobile','email','company','position','color'];
+		    $.each(cards, function(index,card) {
+		    	table = $('<table></table>').addClass("dispEachCard");
+		    	table.css({"border":"1px solid #98bf21","border-collapse":"collapse","color":"#A43900"});
+		    	table.css({"margin":"10px"});
+		    	$.each(keys, function(index, key) {
+				    table.append($('<tr><td>'+key+'</td><td>'+card.get(key)+'</td></tr>'));
+				});
+				$('#dispAllCards').append(table);
+				table.click(function() {
+					var UserCard = Built.Object.extend('usercards');
+					var userCard = new UserCard();
+					userCard.setReference('userid', Built.User.getCurrentUser().uid);
+					userCard.setReference('cardid', card.get('uid'));
+					userCard.setReference('cardowner', card.get('_owner').uid);
+					userCard.save({
+						onSuccess: function(data, res) {
+							console.log("Added to CardStack");
+							$("#dispMyCards").remove();
+							myCards();
+						},
+						onError: function(err) {
+							console.log("Error: Couldnt Add to Stack");
+							console.log(err);
+						}
+					});
+				});
+		    });
+	    },
+	    onError: function(err) {
+	    	console.log("Error Fetching all Cards");
+	    }
+    });
+	$("body").append(divAllCards);
+}
+
+function myCards() {
+	divMyCards= $("<div></div>").attr("id","dispMyCards");
+	$(divMyCards).css({"width":"50%","float":"left","text-align":"center"});
+	$(divMyCards).append("<h4>CardStack</h4>");
+	$(divMyCards).append("Some Cards maynot have owners since the database is obsolute and cannot be Added.");
+	var myQuery = new Built.Query('usercards');
+	myQuery.include('cardid');
+	myQuery.include('cardowner');
+	myQuery.where('userid', Built.User.getCurrentUser().uid);
+	myQuery.exec({
+		onSuccess: function(usercards) {
+		    keys =['name','mobile','email','company','position','color'];
+			$.each(usercards, function(index,usercard) {
+		    	table = $('<table></table>').addClass("dispMyEachCard");
+		    	table.css({"border":"1px solid #98bf21","border-collapse":"collapse","color":"#A43900"});
+		    	table.css({"margin":"10px"});
+		    	$.each(keys, function(index, key) {
+				    table.append($('<tr><td>'+key+'</td><td>'+usercard.get('cardid')[0][key]+'</td></tr>'));
+				});
+				table.append("<p style='color:black'>Owner of this Card is: "+usercard.get('cardowner')[0].first_name+"</p>");
+				$('#dispMyCards').append(table);
+		    });
+		},
+		onError: function(err) {
+			console.log("Error: usercards can't be fetched");
+		}
+	});
+	$("body").append(divMyCards);
+}
